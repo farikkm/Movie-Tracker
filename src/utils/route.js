@@ -14,11 +14,18 @@ class Route {
   }
 
   loadStyles() {
-    const linkTag = document.createElement("link");
-    linkTag.rel = "stylesheet";
-    linkTag.href = `src/styles/${this.filename}.css`;
+    let linkTag = document.querySelector("link[data-page-css]");
 
-    document.head.appendChild(linkTag);
+    if (linkTag) {
+      linkTag.href = `src/styles/${this.filename}.css`;
+    } else {
+      linkTag = document.createElement("link");
+      linkTag.setAttribute("data-page-css", "");
+      linkTag.rel = "stylesheet";
+      linkTag.href = `src/styles/${this.filename}.css`;
+
+      document.head.appendChild(linkTag);
+    }
   }
 }
 
