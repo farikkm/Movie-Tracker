@@ -7,7 +7,7 @@ class Route {
   }
 
   async loadView() {
-    const res = await fetch(`src/pages/${this.filename}.html`);
+    const res = await fetch(`/src/pages/${this.filename}.html`);
     const content = await res.text();
 
     app.innerHTML = content;
@@ -17,7 +17,7 @@ class Route {
     let linkTag = document.querySelector("link[data-page-css]");
 
     if (linkTag) {
-      linkTag.href = `src/styles/${this.filename}.css`;
+      linkTag.href = `/src/styles/${this.filename}.css`;
     } else {
       linkTag = document.createElement("link");
       linkTag.setAttribute("data-page-css", "");
