@@ -8,12 +8,27 @@ const routes = [
 
 const page404 = new Route("/page-not-found", "404");
 
-const router = () => {
+let currentModule;
+
+const router = async () => {
   const path = window.location.pathname;
   const match = findMatch(path) || page404;
 
-  match.loadView();
+  await match.loadView();
   match.loadStyles();
+
+  currentModule?.destroy?.();
+
+  if (match.filename) {
+    import(`../scripts/${match.filename}.js`)
+      .then((module) => {
+        module.init?.();
+        currentModule = module;
+      })
+      .catch(() => {
+        console.log("Error: Script file is not loaded");
+      });
+  }
 };
 
 const navigateTo = (url) => {
